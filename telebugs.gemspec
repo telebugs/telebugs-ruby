@@ -9,10 +9,10 @@ Gem::Specification.new do |spec|
   spec.email = ["help@telebugs.com"]
 
   spec.summary = "Report errors to Telebugs with the offical Ruby SDK"
-  spec.description = <<DESC
-Telebugs Ruby is an SDK for Telebugs (https://telebugs.com/), a simple error monitoring tool for developers. With
-Telebugs, you can track production errors in real-time and report them to Telegram.
-DESC
+  spec.description = <<~DESC
+    Telebugs Ruby is an SDK for Telebugs (https://telebugs.com/), a simple error monitoring tool for developers. With
+    Telebugs, you can track production errors in real-time and report them to Telegram.
+  DESC
 
   spec.homepage = "https://telebugs.com"
   spec.required_ruby_version = ">= 3.0.0"
@@ -37,4 +37,5 @@ DESC
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
+  spec.metadata["rubygems_mfa_required"] = "true"
 end
