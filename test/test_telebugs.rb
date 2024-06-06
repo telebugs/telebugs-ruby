@@ -20,6 +20,6 @@ class TestTelebugs < Minitest::Test
   def test_notify_returns_a_future
     future = Telebugs.notify(error: StandardError.new)
 
-    assert_instance_of Concurrent::Promises::Future, future
+    assert_instance_of Telebugs::Promise, future
   end
 end
