@@ -12,19 +12,19 @@ class TestWrappedError < Minitest::Test
 
   def test_unwraps_no_more_than_3_nested_errors
     begin
-      raise RuntimeError, "error 1"
-    rescue => e1
+      raise "error 1"
+    rescue => _
       begin
-        raise RuntimeError, "error 2"
-      rescue => e2
+        raise "error 2"
+      rescue => _
         begin
-          raise RuntimeError, "error 3"
+          raise "error 3"
         rescue => e3
           begin
-            raise RuntimeError, "error 4"
+            raise "error 4"
           rescue => e4
             begin
-              raise RuntimeError, "error 5"
+              raise "error 5"
             rescue => e5
             end
           end
