@@ -16,4 +16,10 @@ class TestTelebugs < Minitest::Test
 
     assert_equal key, Telebugs::Config.instance.api_key
   end
+
+  def test_notify_returns_a_future
+    future = Telebugs.notify(error: StandardError.new)
+
+    assert_instance_of Telebugs::Promise, future
+  end
 end
