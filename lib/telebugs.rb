@@ -1,24 +1,30 @@
 # frozen_string_literal: true
 
 require "concurrent"
+require "net/https"
+require "json"
 
 require_relative "telebugs/version"
 require_relative "telebugs/config"
 require_relative "telebugs/promise"
+require_relative "telebugs/notifier"
+require_relative "telebugs/sender"
 require_relative "telebugs/wrapped_error"
+require_relative "telebugs/notice"
 
 module Telebugs
   # The general error that this library uses when it wants to raise.
   Error = Class.new(StandardError)
 
+  HTTPError = Class.new(Error)
+
   class << self
     def configure
-      yield Telebugs::Config.instance
+      yield Config.instance
     end
 
     def notify(error:)
-      Telebugs::Promise.new(error) do
-      end
+      Notifier.instance.notify(error)
     end
   end
 end
