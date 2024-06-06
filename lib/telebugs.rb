@@ -11,5 +11,10 @@ module Telebugs
     def configure
       yield Telebugs::Config.instance
     end
+
+    def notify(error:)
+      Concurrent::Promises.future do
+      end
+    end
   end
 end
