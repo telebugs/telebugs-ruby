@@ -11,5 +11,21 @@ module Telebugs
     def value
       @future.value
     end
+
+    def reason
+      @future.reason
+    end
+
+    def wait
+      @future.wait
+    end
+
+    def fulfilled?
+      @future.fulfilled?
+    end
+
+    def rejected?
+      @future.rejected?
+    end
   end
 end
