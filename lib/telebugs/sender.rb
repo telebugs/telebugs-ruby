@@ -16,7 +16,9 @@ module Telebugs
       req = build_request(@config.api_url, data)
 
       resp = build_https(@config.api_url).request(req)
-      return if resp.code_type == Net::HTTPCreated
+      if resp.code_type == Net::HTTPCreated
+        return JSON.parse(resp.body)
+      end
 
       raise HTTPError, "#{resp.code_type} (#{resp.code}): #{JSON.parse(resp.body)}"
     end

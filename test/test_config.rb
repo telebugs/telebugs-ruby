@@ -3,6 +3,10 @@
 require "test_helper"
 
 class TestConfig < Minitest::Test
+  def teardown
+    Telebugs::Config.instance.reset
+  end
+
   def test_api_key
     Telebugs.configure { |c| c.api_key = "12345:abcdef" }
 

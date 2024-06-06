@@ -18,12 +18,16 @@ module Telebugs
     end
 
     def initialize
-      self.api_key = nil
-      self.api_url = ERROR_API_URL
+      reset
     end
 
     def api_url=(url)
       @api_url = URI(url)
+    end
+
+    def reset
+      self.api_key = nil
+      self.api_url = ERROR_API_URL
     end
   end
 end
