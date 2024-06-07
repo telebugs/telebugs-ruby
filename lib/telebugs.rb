@@ -11,6 +11,8 @@ require_relative "telebugs/notifier"
 require_relative "telebugs/sender"
 require_relative "telebugs/wrapped_error"
 require_relative "telebugs/notice"
+require_relative "telebugs/error_message"
+require_relative "telebugs/backtrace"
 
 module Telebugs
   # The general error that this library uses when it wants to raise.
