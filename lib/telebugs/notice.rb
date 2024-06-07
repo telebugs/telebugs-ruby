@@ -29,6 +29,8 @@ module Telebugs
       loop do
         begin
           json = @payload.to_json
+          require 'pp'
+          pp @payload
         rescue *JSON_EXCEPTIONS
           # TODO
         else
@@ -46,7 +48,13 @@ module Telebugs
         {
           type: e.class.name,
           message: ErrorMessage.parse(e),
-          backtrace: Backtrace.parse(e)
+          backtrace: Backtrace.parse(e).each do |frame|
+            next unless frame[:file]
+            next unless File.exist?(frame[:file])
+            next unless frame[:line]
+
+            frame[:code] = CodeHunk.get(frame[:file], frame[:line])
+          end
         }
       end
     end
