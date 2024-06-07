@@ -13,15 +13,6 @@ module Telebugs
       Encoding::UndefinedConversionError
     ].freeze
 
-    # On Ruby 3.1+, the error highlighting gem can produce messages that can
-    # span over multiple lines. We don't want to display multiline error titles.
-    # Therefore, we want to strip out the higlighting part so that the errors
-    # look consistent.
-    RUBY_31_ERROR_HIGHLIGHTING_DIVIDER = "\n\n"
-
-    # The options for +String#encode+
-    ENCODING_OPTIONS = {invalid: :replace, undef: :replace}.freeze
-
     # The maxium size of the JSON payload in bytes
     MAX_NOTICE_SIZE = 64000
 
@@ -54,17 +45,10 @@ module Telebugs
       WrappedError.new(error).unwrap.map do |e|
         {
           type: e.class.name,
-          message: message(e)
+          message: ErrorMessage.parse(e),
+          backtrace: Backtrace.parse(e)
         }
       end
-    end
-
-    def message(error)
-      return unless (msg = error.message)
-
-      msg.encode(Encoding::UTF_8, **ENCODING_OPTIONS)
-        .split(RUBY_31_ERROR_HIGHLIGHTING_DIVIDER)
-        .first
     end
 
     def truncate
