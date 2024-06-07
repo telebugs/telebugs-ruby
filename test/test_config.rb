@@ -18,4 +18,10 @@ class TestConfig < Minitest::Test
 
     assert_equal URI("example.com"), Telebugs::Config.instance.api_url
   end
+
+  def test_root_directory
+    Telebugs.configure { |c| c.root_directory = "/tmp" }
+
+    assert_equal "/tmp", Telebugs::Config.instance.root_directory
+  end
 end
