@@ -13,6 +13,8 @@ require_relative "telebugs/wrapped_error"
 require_relative "telebugs/notice"
 require_relative "telebugs/error_message"
 require_relative "telebugs/backtrace"
+require_relative "telebugs/file_cache"
+require_relative "telebugs/code_hunk"
 
 module Telebugs
   # The general error that this library uses when it wants to raise.

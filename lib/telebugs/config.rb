@@ -6,7 +6,9 @@ module Telebugs
   class Config
     ERROR_API_URL = "https://api.telebugs.com/2024-03-28/errors"
 
-    attr_accessor :api_key
+    attr_accessor :api_key,
+      :root_directory
+
     attr_reader :api_url
 
     class << self
@@ -28,6 +30,10 @@ module Telebugs
     def reset
       self.api_key = nil
       self.api_url = ERROR_API_URL
+      self.root_directory = File.realpath(
+        (defined?(Bundler) && Bundler.root) ||
+        Dir.pwd
+      )
     end
   end
 end

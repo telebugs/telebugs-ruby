@@ -46,9 +46,25 @@ module Telebugs
         {
           type: e.class.name,
           message: ErrorMessage.parse(e),
-          backtrace: Backtrace.parse(e)
+          backtrace: attach_code(Backtrace.parse(e))
         }
       end
+    end
+
+    def attach_code(b)
+      b.each do |frame|
+        next unless frame[:file]
+        next unless File.exist?(frame[:file])
+        next unless frame[:line]
+        next unless frame_belogns_to_root_directory?(frame)
+        next if %r{vendor/bundle}.match?(frame[:file])
+
+        frame[:code] = CodeHunk.get(frame[:file], frame[:line])
+      end
+    end
+
+    def frame_belogns_to_root_directory?(frame)
+      frame[:file].start_with?(Telebugs::Config.instance.root_directory)
     end
 
     def truncate
