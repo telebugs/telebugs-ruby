@@ -13,7 +13,7 @@ module Telebugs
       start_line = [line - AROUND_LINES, 1].max
 
       lines = get_lines(file, start_line, line + AROUND_LINES)
-      return { start_line: 0, lines: [] } if lines.empty?
+      return {start_line: 0, lines: []} if lines.empty?
 
       {
         start_line: start_line,
@@ -37,7 +37,7 @@ module Telebugs
 
     private_class_method def self.get_from_cache(file)
       Telebugs::FileCache[file] ||= File.foreach(file)
-    rescue StandardError
+    rescue
       nil
     end
   end

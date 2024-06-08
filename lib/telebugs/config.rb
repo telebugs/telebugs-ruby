@@ -7,7 +7,7 @@ module Telebugs
     ERROR_API_URL = "https://api.telebugs.com/2024-03-28/errors"
 
     attr_accessor :api_key,
-                  :root_directory
+      :root_directory
 
     attr_reader :api_url
 
@@ -32,7 +32,7 @@ module Telebugs
       self.api_url = ERROR_API_URL
       self.root_directory = File.realpath(
         (defined?(Bundler) && Bundler.root) ||
-        Dir.pwd,
+        Dir.pwd
       )
     end
   end

@@ -4,16 +4,16 @@ require "test_helper"
 
 class TestNotice < Minitest::Test
   def fixture_path(filename)
-    File.expand_path(File.join('test', 'fixtures', filename))
+    File.expand_path(File.join("test", "fixtures", filename))
   end
 
   def project_root_path(filename)
-    fixture_path(File.join('project_root', filename))
+    fixture_path(File.join("project_root", filename))
   end
 
   def setup
     Telebugs.configure do |c|
-      c.root_directory = project_root_path('')
+      c.root_directory = project_root_path("")
     end
   end
 
@@ -52,11 +52,10 @@ class TestNotice < Minitest::Test
   def test_to_json_code
     error = RuntimeError.new
     error.set_backtrace([
-      "#{project_root_path('code.rb')}:18:in `start'",
+      "#{project_root_path("code.rb")}:18:in `start'",
       fixture_path("notroot.txt:3:in `pineapple'"),
-      "#{project_root_path('vendor/bundle/ignored_file.rb')}:2:in `ignore_me'",
+      "#{project_root_path("vendor/bundle/ignored_file.rb")}:2:in `ignore_me'"
     ])
-
 
     n = Telebugs::Notice.new(error)
     json = JSON.parse(n.to_json)

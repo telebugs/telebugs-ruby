@@ -57,7 +57,7 @@ module Telebugs
         next unless File.exist?(frame[:file])
         next unless frame[:line]
         next unless frame_belogns_to_root_directory?(frame)
-        next if frame[:file] =~ %r{vendor/bundle}
+        next if %r{vendor/bundle}.match?(frame[:file])
 
         frame[:code] = CodeHunk.get(frame[:file], frame[:line])
       end
