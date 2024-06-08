@@ -29,8 +29,6 @@ module Telebugs
       loop do
         begin
           json = @payload.to_json
-          require 'pp'
-          pp @payload
         rescue *JSON_EXCEPTIONS
           # TODO
         else
@@ -48,15 +46,25 @@ module Telebugs
         {
           type: e.class.name,
           message: ErrorMessage.parse(e),
-          backtrace: Backtrace.parse(e).each do |frame|
-            next unless frame[:file]
-            next unless File.exist?(frame[:file])
-            next unless frame[:line]
-
-            frame[:code] = CodeHunk.get(frame[:file], frame[:line])
-          end
+          backtrace: attach_code(Backtrace.parse(e))
         }
       end
+    end
+
+    def attach_code(b)
+      b.each do |frame|
+        next unless frame[:file]
+        next unless File.exist?(frame[:file])
+        next unless frame[:line]
+        next unless frame_belogns_to_root_directory?(frame)
+        next if frame[:file] =~ %r{vendor/bundle}
+
+        frame[:code] = CodeHunk.get(frame[:file], frame[:line])
+      end
+    end
+
+    def frame_belogns_to_root_directory?(frame)
+      frame[:file].start_with?(Telebugs::Config.instance.root_directory)
     end
 
     def truncate
