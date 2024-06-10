@@ -5,6 +5,7 @@ require "telebugs"
 
 require "minitest/autorun"
 require "webmock/minitest"
+require "base64"
 
 class OCIError < StandardError; end
 

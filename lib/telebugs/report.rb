@@ -16,14 +16,36 @@ module Telebugs
     # The maxium size of the JSON data in bytes
     MAX_REPORT_SIZE = 64000
 
+    # The maximum size of hashes, arrays and strings in the report.
+    DATA_MAX_SIZE = 10000
+
     attr_reader :data
     attr_accessor :ignored
 
     def initialize(error)
       @ignored = false
+      @truncator = Truncator.new(DATA_MAX_SIZE)
+
       @data = {
         errors: errors_as_json(error)
       }
+    end
+
+    # Converts the report to JSON. Calls +to_json+ on each object inside the
+    # reports's payload. Truncates report data, JSON representation of which is
+    # bigger than {MAX_REPORT_SIZE}.
+    def to_json(*_args)
+      loop do
+        begin
+          json = @payload.to_json
+        rescue *JSON_EXCEPTIONS
+          # TODO: log the error
+        else
+          return json if json && json.bytesize <= MAX_REPORT_SIZE
+        end
+
+        break if truncate == 0
+      end
     end
 
     private
@@ -38,8 +60,8 @@ module Telebugs
       end
     end
 
-    def attach_code(b)
-      b.each do |frame|
+    def attach_code(backtrace)
+      backtrace.each do |frame|
         next unless frame[:file]
         next unless File.exist?(frame[:file])
         next unless frame[:line]
@@ -55,7 +77,11 @@ module Telebugs
     end
 
     def truncate
-      0
+      @data.each_key do |key|
+        @data[key] = @truncator.truncate(@data[key])
+      end
+
+      @truncator.reduce_max_size
     end
   end
 end

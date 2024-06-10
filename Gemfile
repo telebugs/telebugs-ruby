@@ -7,3 +7,4 @@ gem "minitest", "~> 5.23"
 gem "rake", "~> 13.2"
 
 gem "standard", group: %i[development test]
+gem "base64"
