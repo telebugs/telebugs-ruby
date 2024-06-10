@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Telebugs
-  # Notifier is reponsible for sending notices to Telebugs.
+  # Notifier is reponsible for sending reports to Telebugs.
   class Notifier
     class << self
       attr_writer :instance

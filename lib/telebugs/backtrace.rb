@@ -7,9 +7,9 @@ module Telebugs
   module Backtrace
     module Patterns
       # The pattern that matches standard Ruby stack frames, such as
-      # ./spec/notice_spec.rb:43:in `block (3 levels) in <top (required)>'
+      # ./spec/report_spec.rb:43:in `block (3 levels) in <top (required)>'
       RUBY = %r{\A
-        (?<file>.+)       # Matches './spec/notice_spec.rb'
+        (?<file>.+)       # Matches './spec/report_spec.rb'
         :
         (?<line>\d+)      # Matches '43'
         :in\s
