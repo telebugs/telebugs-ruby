@@ -13,11 +13,17 @@ module Telebugs
 
     def initialize
       @sender = Sender.new
+      @middleware = Config.instance.middleware
     end
 
     def notify(error)
       Telebugs::Promise.new(error) do
-        @sender.send(error)
+        report = Report.new(error)
+
+        @middleware.call(report)
+        next if report.ignored
+
+        @sender.send(report)
       end
     end
   end

@@ -80,4 +80,12 @@ class TestReport < Minitest::Test
     assert_nil backtrace[1][:code]
     assert_nil backtrace[2][:code]
   end
+
+  def test_ignore
+    r = Telebugs::Report.new(StandardError.new)
+    refute r.ignored
+
+    r.ignored = true
+    assert r.ignored
+  end
 end
