@@ -20,7 +20,13 @@ module Telebugs
         return JSON.parse(resp.body)
       end
 
-      raise HTTPError, "#{resp.code_type} (#{resp.code}): #{JSON.parse(resp.body)}"
+      begin
+        reason = JSON.parse(resp.body)
+      rescue JSON::ParserError
+        nil
+      end
+
+      raise HTTPError, "#{resp.code_type} (#{resp.code}): #{reason}"
     end
 
     private

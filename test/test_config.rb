@@ -24,4 +24,14 @@ class TestConfig < Minitest::Test
 
     assert_equal "/tmp", Telebugs::Config.instance.root_directory
   end
+
+  def test_middleware
+    middleware_class = Class.new(Telebugs::Middleware)
+
+    Telebugs.configure do |c|
+      c.middleware.use middleware_class.new
+    end
+
+    assert_equal 1, Telebugs::Config.instance.middleware.middlewares.size
+  end
 end

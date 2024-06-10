@@ -7,7 +7,8 @@ module Telebugs
     ERROR_API_URL = "https://api.telebugs.com/2024-03-28/errors"
 
     attr_accessor :api_key,
-      :root_directory
+      :root_directory,
+      :middleware
 
     attr_reader :api_url
 
@@ -34,6 +35,8 @@ module Telebugs
         (defined?(Bundler) && Bundler.root) ||
         Dir.pwd
       )
+
+      @middleware = MiddlewareStack.new
     end
   end
 end

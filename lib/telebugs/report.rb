@@ -17,8 +17,10 @@ module Telebugs
     MAX_REPORT_SIZE = 64000
 
     attr_reader :data
+    attr_accessor :ignored
 
     def initialize(error)
+      @ignored = false
       @data = {
         errors: errors_as_json(error)
       }
