@@ -27,5 +27,9 @@ module Telebugs
     def rejected?
       @future.rejected?
     end
+
+    def then(...)
+      @future.then(...)
+    end
   end
 end

@@ -28,4 +28,10 @@ class TestPromise < Minitest::Test
 
     assert p.rejected?
   end
+
+  def test_then
+    p = Telebugs::Promise.new { 1 + 1 }.then { |v| v + 1 }.then { |v| v + 1 }
+
+    assert_equal 4, p.value
+  end
 end
