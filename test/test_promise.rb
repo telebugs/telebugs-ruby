@@ -34,4 +34,10 @@ class TestPromise < Minitest::Test
 
     assert_equal 4, p.value
   end
+
+  def test_rescue
+    p = Telebugs::Promise.new { raise "error" }.rescue { |e| e.message }
+
+    assert_equal "error", p.value
+  end
 end

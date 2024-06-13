@@ -31,5 +31,9 @@ module Telebugs
     def then(...)
       @future.then(...)
     end
+
+    def rescue(...)
+      @future.rescue(...)
+    end
   end
 end
