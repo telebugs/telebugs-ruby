@@ -32,12 +32,12 @@ module Telebugs
     end
 
     # Converts the report to JSON. Calls +to_json+ on each object inside the
-    # reports's payload. Truncates report data, JSON representation of which is
+    # reports' data. Truncates report data, JSON representation of which is
     # bigger than {MAX_REPORT_SIZE}.
     def to_json(*_args)
       loop do
         begin
-          json = @payload.to_json
+          json = @data.to_json
         rescue *JSON_EXCEPTIONS
           # TODO: log the error
         else

@@ -21,7 +21,7 @@ class TestReport < Minitest::Test
     Telebugs::Config.instance.reset
   end
 
-  def test_as_json_with_nested_errors
+  def test_data_with_nested_errors
     begin
       raise StandardError.new("error 1")
     rescue => _
@@ -49,7 +49,7 @@ class TestReport < Minitest::Test
     assert_nil error2[:backtrace][0][:code]
   end
 
-  def test_as_json_code
+  def test_data_code
     error = RuntimeError.new
     error.set_backtrace([
       "#{project_root_path("code.rb")}:18:in `start'",
@@ -87,5 +87,13 @@ class TestReport < Minitest::Test
 
     r.ignored = true
     assert r.ignored
+  end
+
+  def test_to_json
+    error = StandardError.new("test error")
+    r = Telebugs::Report.new(error)
+
+    json = r.to_json
+    assert_match(/"errors".+StandardError.+"test error"/, json)
   end
 end
