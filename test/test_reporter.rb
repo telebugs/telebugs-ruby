@@ -8,34 +8,34 @@ class TestIgnoreMiddleware < Telebugs::Middleware
   end
 end
 
-class TestNotifier < Minitest::Test
+class TestReporter < Minitest::Test
   def teardown
     WebMock.reset!
     Telebugs::Config.instance.reset
   end
 
-  def test_notify_returns_a_promise_that_resolves_to_a_hash
+  def test_report_returns_a_promise_that_resolves_to_a_hash
     stub = stub_request(:post, Telebugs::Config.instance.api_url)
       .to_return(status: 201, body: {id: "123"}.to_json)
 
-    p = Telebugs::Notifier.new.notify(StandardError.new)
+    p = Telebugs::Reporter.new.report(StandardError.new)
 
     assert_equal({"id" => "123"}, p.value)
     assert_requested stub
   end
 
-  def test_notify_returns_a_promise_that_rejects_on_http_error
+  def test_reporter_returns_a_promise_that_rejects_on_http_error
     stub = stub_request(:post, Telebugs::Config.instance.api_url)
       .to_return(status: 500)
 
-    p = Telebugs::Notifier.new.notify(StandardError.new)
+    p = Telebugs::Reporter.new.report(StandardError.new)
 
     assert_nil p.value
     assert_instance_of(Telebugs::HTTPError, p.reason)
     assert_requested stub
   end
 
-  def test_notify_does_not_send_ignored_errors
+  def test_reporter_does_not_send_ignored_errors
     stub = stub_request(:post, Telebugs::Config.instance.api_url)
       .to_return(status: 201, body: {id: "123"}.to_json)
 
@@ -43,7 +43,7 @@ class TestNotifier < Minitest::Test
       c.middleware.use TestIgnoreMiddleware.new
     end
 
-    p = Telebugs::Notifier.new.notify(StandardError.new)
+    p = Telebugs::Reporter.new.report(StandardError.new)
     p.wait
 
     refute_requested stub

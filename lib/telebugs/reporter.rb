@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Telebugs
-  # Notifier is reponsible for sending reports to Telebugs.
-  class Notifier
+  # Reporter is reponsible for sending reports to Telebugs.
+  class Reporter
     class << self
       attr_writer :instance
 
@@ -16,7 +16,7 @@ module Telebugs
       @middleware = Config.instance.middleware
     end
 
-    def notify(error)
+    def report(error)
       Telebugs::Promise.new(error) do
         report = Report.new(error)
 

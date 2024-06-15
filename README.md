@@ -46,7 +46,7 @@ end
 begin
   1 / 0
 rescue ZeroDivisionError => e
-  Telebugs.notify(error: e)
+  Telebugs.report(e)
 end
 
 sleep 2
