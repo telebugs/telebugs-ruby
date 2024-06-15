@@ -7,7 +7,7 @@ require "json"
 require_relative "telebugs/version"
 require_relative "telebugs/config"
 require_relative "telebugs/promise"
-require_relative "telebugs/notifier"
+require_relative "telebugs/reporter"
 require_relative "telebugs/sender"
 require_relative "telebugs/wrapped_error"
 require_relative "telebugs/report"
@@ -30,8 +30,8 @@ module Telebugs
       yield Config.instance
     end
 
-    def notify(error:)
-      Notifier.instance.notify(error)
+    def report(error)
+      Reporter.instance.report(error)
     end
   end
 end
