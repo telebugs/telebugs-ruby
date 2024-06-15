@@ -30,6 +30,10 @@ module Telebugs
       yield Config.instance
     end
 
+    def config
+      Config.instance
+    end
+
     def report(error)
       Reporter.instance.report(error)
     end
