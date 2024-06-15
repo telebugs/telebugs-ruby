@@ -4,14 +4,14 @@ require "test_helper"
 
 class TestSender < Minitest::Test
   def teardown
-    Telebugs::Config.instance.reset
+    Telebugs.config.reset
     WebMock.reset!
   end
 
   def test_send_attaches_correct_authorization_headers
     Telebugs.configure { |c| c.api_key = "12345:abcdef" }
 
-    stub = stub_request(:post, Telebugs::Config.instance.api_url)
+    stub = stub_request(:post, Telebugs.config.api_url)
       .to_return(status: 201, body: {id: "123"}.to_json)
 
     Telebugs::Sender.new.send({"errors" => []})
@@ -27,7 +27,7 @@ class TestSender < Minitest::Test
   end
 
   def test_send_raises_http_error_when_response_code_is_not_created
-    stub = stub_request(:post, Telebugs::Config.instance.api_url)
+    stub = stub_request(:post, Telebugs.config.api_url)
       .to_return(status: 500, body: {"error" => "oops"}.to_json)
 
     assert_raises(Telebugs::HTTPError) do

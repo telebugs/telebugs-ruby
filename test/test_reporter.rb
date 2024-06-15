@@ -11,11 +11,11 @@ end
 class TestReporter < Minitest::Test
   def teardown
     WebMock.reset!
-    Telebugs::Config.instance.reset
+    Telebugs.config.reset
   end
 
   def test_report_returns_a_promise_that_resolves_to_a_hash
-    stub = stub_request(:post, Telebugs::Config.instance.api_url)
+    stub = stub_request(:post, Telebugs.config.api_url)
       .to_return(status: 201, body: {id: "123"}.to_json)
 
     p = Telebugs::Reporter.new.report(StandardError.new)
@@ -25,7 +25,7 @@ class TestReporter < Minitest::Test
   end
 
   def test_reporter_returns_a_promise_that_rejects_on_http_error
-    stub = stub_request(:post, Telebugs::Config.instance.api_url)
+    stub = stub_request(:post, Telebugs.config.api_url)
       .to_return(status: 500)
 
     p = Telebugs::Reporter.new.report(StandardError.new)
@@ -36,7 +36,7 @@ class TestReporter < Minitest::Test
   end
 
   def test_reporter_does_not_send_ignored_errors
-    stub = stub_request(:post, Telebugs::Config.instance.api_url)
+    stub = stub_request(:post, Telebugs.config.api_url)
       .to_return(status: 201, body: {id: "123"}.to_json)
 
     Telebugs.configure do |c|
