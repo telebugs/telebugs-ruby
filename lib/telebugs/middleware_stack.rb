@@ -21,6 +21,10 @@ module Telebugs
       @middlewares = (@middlewares << new_middleware).sort_by(&:weight).reverse
     end
 
+    def delete(middleware_class)
+      @middlewares.delete_if { |middleware| middleware.instance_of?(middleware_class) }
+    end
+
     def call(report)
       @middlewares.each do |middleware|
         middleware.call(report)
