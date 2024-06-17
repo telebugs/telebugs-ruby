@@ -54,4 +54,14 @@ class TestMiddlewareStack < Minitest::Test
       stack.middlewares.map(&:class)
     )
   end
+
+  def test_delete
+    stack = Telebugs::MiddlewareStack.new
+    stack.use TestFilteringMiddleware.new
+    stack.use TestStartLineMiddleware.new
+
+    stack.delete TestFilteringMiddleware
+
+    assert_equal [TestStartLineMiddleware], stack.middlewares.map(&:class)
+  end
 end
