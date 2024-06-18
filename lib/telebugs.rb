@@ -19,6 +19,8 @@ require_relative "telebugs/middleware"
 require_relative "telebugs/middleware_stack"
 require_relative "telebugs/truncator"
 
+require_relative "telebugs/middleware/gem_root_filter"
+
 module Telebugs
   # The general error that this library uses when it wants to raise.
   Error = Class.new(StandardError)
