@@ -42,8 +42,13 @@ module Telebugs
         parts = file.split("/")
 
         gem_info = parts[0].split("-")
-        gem_name = gem_info[0]
-        gem_version = gem_info[1]
+        if gem_info.size < 2
+          gem_name = gem_info[0]
+          gem_version = gem_info[1]
+        else
+          gem_name = gem_info[0..-2].join("-")
+          gem_version = gem_info[-1]
+        end
 
         file_path = parts[1..].join("/")
 
