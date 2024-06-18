@@ -20,9 +20,20 @@ class TestConfig < Minitest::Test
   end
 
   def test_root_directory
-    Telebugs.configure { |c| c.root_directory = "/tmp" }
+    Telebugs.configure { |c| c.root_directory = "/etc" }
 
-    assert_equal "/tmp", Telebugs.config.root_directory
+    assert_equal "/etc", Telebugs.config.root_directory
+  end
+
+  def test_root_directory_overwrite_root_directory_filter_middleware
+    Telebugs.configure do |c|
+      c.middleware.use Telebugs::Middleware::RootDirectoryFilter.new("/tmp")
+      c.root_directory = "/tmp"
+      c.root_directory = "/var"
+      c.root_directory = "/etc"
+    end
+
+    assert_equal 2, Telebugs.config.middleware.middlewares.size
   end
 
   def test_middleware
@@ -32,11 +43,12 @@ class TestConfig < Minitest::Test
       c.middleware.use middleware_class.new
     end
 
-    assert_equal 2, Telebugs.config.middleware.middlewares.size
+    assert_equal 3, Telebugs.config.middleware.middlewares.size
   end
 
   def test_default_middleware_list
     middleware_list = Telebugs.config.middleware.middlewares.map(&:class)
     assert_includes middleware_list, Telebugs::Middleware::GemRootFilter
+    assert_includes middleware_list, Telebugs::Middleware::RootDirectoryFilter
   end
 end

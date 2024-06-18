@@ -5,10 +5,10 @@ module Telebugs
     ERROR_API_URL = "https://api.telebugs.com/2024-03-28/errors"
 
     attr_accessor :api_key,
-      :root_directory,
       :middleware
 
-    attr_reader :api_url
+    attr_reader :api_url,
+      :root_directory
 
     class << self
       attr_writer :instance
@@ -26,6 +26,15 @@ module Telebugs
       @api_url = URI(url)
     end
 
+    def root_directory=(directory)
+      @root_directory = File.realpath(directory)
+
+      if @middleware
+        @middleware.delete(Middleware::RootDirectoryFilter)
+        @middleware.use Middleware::RootDirectoryFilter.new(@root_directory)
+      end
+    end
+
     def reset
       self.api_key = nil
       self.api_url = ERROR_API_URL
@@ -36,6 +45,7 @@ module Telebugs
 
       @middleware = MiddlewareStack.new
       @middleware.use Middleware::GemRootFilter.new
+      @middleware.use Middleware::RootDirectoryFilter.new(root_directory)
     end
   end
 end
