@@ -4,21 +4,26 @@ require "test_helper"
 
 class TestGemRootFilter < Minitest::Test
   def test_gem_root_filter
-    begin
-      raise StandardError.new("test error")
-    rescue => e
-      report = Telebugs::Report.new(e)
-    end
+    gem_path = Gem.path.first
 
+    e = StandardError.new("test error")
+    e.set_backtrace([
+      "#{gem_path}/gems/minitest-5.14.0/lib/minitest/test.rb:3:in `block in <top (required)>'",
+      "/test/middleware/test_gem_root_filter.rb:3:in `test_gem_root_filter'",
+      "#{gem_path}/gems/turbo-rails-2.0.5/lib/turbo-rails.rb:3:in `block in <top (required)>'",
+      "#{gem_path}/gems/turbo-turbo-rails-rails-2.0.5/lib/turbo-rails.rb:3:in `block in <top (required)>'",
+      "#{gem_path}/gems/turbo_turbo_rails-2.0.5/lib/turbo-rails.rb:3:in `block in <top (required)>'"
+    ])
+
+    report = Telebugs::Report.new(e)
     Telebugs::Middleware::GemRootFilter.new.call(report)
 
-    assert_match(
-      %r{/test/middleware/test_gem_root_filter.rb},
-      report.data[:errors][0][:backtrace][0][:file]
-    )
-    assert_match(
-      %r{\Aminitest \(.+\..+\..+\) lib/minitest/test.rb\z},
-      report.data[:errors][0][:backtrace][1][:file]
-    )
+    assert_equal [
+      "minitest (5.14.0) lib/minitest/test.rb",
+      "/test/middleware/test_gem_root_filter.rb",
+      "turbo-rails (2.0.5) lib/turbo-rails.rb",
+      "turbo-turbo-rails-rails (2.0.5) lib/turbo-rails.rb",
+      "turbo_turbo_rails (2.0.5) lib/turbo-rails.rb"
+    ], report.data[:errors].first[:backtrace].map { |f| f[:file] }
   end
 end
