@@ -32,6 +32,11 @@ class TestConfig < Minitest::Test
       c.middleware.use middleware_class.new
     end
 
-    assert_equal 1, Telebugs.config.middleware.middlewares.size
+    assert_equal 2, Telebugs.config.middleware.middlewares.size
+  end
+
+  def test_default_middleware_list
+    middleware_list = Telebugs.config.middleware.middlewares.map(&:class)
+    assert_includes middleware_list, Telebugs::Middleware::GemRootFilter
   end
 end

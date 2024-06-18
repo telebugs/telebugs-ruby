@@ -35,6 +35,7 @@ module Telebugs
       )
 
       @middleware = MiddlewareStack.new
+      @middleware.use Middleware::GemRootFilter.new
     end
   end
 end
