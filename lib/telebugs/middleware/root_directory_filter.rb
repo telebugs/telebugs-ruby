@@ -14,6 +14,7 @@ module Telebugs
             next unless (file = frame[:file])
             next unless file.start_with?(@root_directory)
 
+            frame[:root_dir] = true
             file.sub!(/#{@root_directory}\/?/, "")
           end
         end

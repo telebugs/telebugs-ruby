@@ -17,6 +17,8 @@ class TestRootDirectoryFilter < Minitest::Test
     report = Telebugs::Report.new(e)
     Telebugs::Middleware::RootDirectoryFilter.new(root_directory).call(report)
 
-    assert_equal "app/models/user.rb", report.data[:errors][0][:backtrace][0][:file]
+    frame = report.data[:errors][0][:backtrace][0]
+    assert_equal "app/models/user.rb", frame[:file]
+    assert frame[:root_dir]
   end
 end
