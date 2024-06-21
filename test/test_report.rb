@@ -96,4 +96,9 @@ class TestReport < Minitest::Test
     json = r.to_json
     assert_match(/"errors".+StandardError.+"test error"/, json)
   end
+
+  def test_data_reporters
+    r = Telebugs::Report.new(StandardError.new)
+    assert_equal [Telebugs::Report::REPORTER], r.data[:reporters]
+  end
 end
