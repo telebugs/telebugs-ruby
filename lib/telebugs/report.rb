@@ -19,6 +19,11 @@ module Telebugs
     # The maximum size of hashes, arrays and strings in the report.
     DATA_MAX_SIZE = 10000
 
+    REPORTER = {
+      library: {name: "telebugs", version: Telebugs::VERSION}.freeze,
+      platform: {name: "Ruby", version: RUBY_VERSION}.freeze
+    }.freeze
+
     attr_reader :data
     attr_accessor :ignored
 
@@ -27,7 +32,8 @@ module Telebugs
       @truncator = Truncator.new(DATA_MAX_SIZE)
 
       @data = {
-        errors: errors_as_json(error)
+        errors: errors_as_json(error),
+        reporters: [REPORTER]
       }
     end
 
