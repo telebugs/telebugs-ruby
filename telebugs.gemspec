@@ -8,10 +8,10 @@ Gem::Specification.new do |spec|
   spec.authors = ["Kyrylo Silin"]
   spec.email = ["help@telebugs.com"]
 
-  spec.summary = "Report errors to Telebugs with the offical Ruby SDK"
+  spec.summary = "Report errors to Telebugs with the offical library for Ruby."
   spec.description = <<~DESC
-    Telebugs Ruby is an SDK for Telebugs (https://telebugs.com/), a simple error monitoring tool for developers. With
-    Telebugs, you can track production errors in real-time and report them to Telegram.
+    Telebugs for Ruby is an error reporting library for Telebugs (https://telebugs.com/), a simple error monitoring tool
+    for developers. With Telebugs, you can track production errors in real-time and report them to Telegram.
   DESC
 
   spec.homepage = "https://telebugs.com"
