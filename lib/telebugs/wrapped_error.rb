@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Telebugs
   # WrappedError unwraps an error and its causes up to a certain depth.
   class WrappedError
