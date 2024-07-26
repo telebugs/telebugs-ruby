@@ -10,10 +10,11 @@ and get them reported to Telegram with Telebugs.
 ## Introduction
 
 Any Ruby application or script can be integrated with
-[Telebugs](https://telebugs.com) using the `telebugs` gem. The gem is designed
-to be simple and easy to use. It provides a simple API to send errors to
-Telebugs, which will then be reported to your Telegram project. This guide will
-help you get started with Telebugs for Ruby.
+[Telebugs](https://telebugs.com) using the
+[`telebugs`](https://rubygems.org/gems/telebugs) gem. The gem is designed to be
+simple and easy to use. It provides a simple API to send errors to Telebugs,
+which will then be reported to your Telegram project. This guide will help you
+get started with Telebugs for Ruby.
 
 For full details, please refer to the [Telebugs documentation](https://telebugs.com/new/docs/integrations/ruby).
 
