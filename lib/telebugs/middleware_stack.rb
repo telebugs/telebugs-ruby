@@ -18,7 +18,7 @@ module Telebugs
     end
 
     def use(new_middleware)
-      @middlewares = (@middlewares << new_middleware).sort_by(&:weight).reverse
+      @middlewares = (@middlewares << new_middleware).sort_by(&:weight)
     end
 
     def delete(middleware_class)

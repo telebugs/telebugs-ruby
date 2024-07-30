@@ -21,6 +21,7 @@ require_relative "telebugs/truncator"
 
 require_relative "telebugs/middleware/gem_root_filter"
 require_relative "telebugs/middleware/root_directory_filter"
+require_relative "telebugs/middleware/ignore_environments"
 
 module Telebugs
   # The general error that this library uses when it wants to raise.

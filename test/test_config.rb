@@ -20,9 +20,9 @@ class TestConfig < Minitest::Test
   end
 
   def test_root_directory
-    Telebugs.configure { |c| c.root_directory = "/etc" }
+    Telebugs.configure { |c| c.root_directory = "/usr" }
 
-    assert_equal "/etc", Telebugs.config.root_directory
+    assert_equal "/usr", Telebugs.config.root_directory
   end
 
   def test_root_directory_overwrite_root_directory_filter_middleware
@@ -33,7 +33,7 @@ class TestConfig < Minitest::Test
       c.root_directory = "/etc"
     end
 
-    assert_equal 2, Telebugs.config.middleware.middlewares.size
+    assert_equal 3, Telebugs.config.middleware.middlewares.size
   end
 
   def test_middleware
@@ -43,12 +43,24 @@ class TestConfig < Minitest::Test
       c.middleware.use middleware_class.new
     end
 
-    assert_equal 3, Telebugs.config.middleware.middlewares.size
+    assert_equal 4, Telebugs.config.middleware.middlewares.size
   end
 
   def test_default_middleware_list
     middleware_list = Telebugs.config.middleware.middlewares.map(&:class)
     assert_includes middleware_list, Telebugs::Middleware::GemRootFilter
     assert_includes middleware_list, Telebugs::Middleware::RootDirectoryFilter
+  end
+
+  def test_environment
+    Telebugs.configure { |c| c.environment = "production" }
+
+    assert_equal "production", Telebugs.config.environment
+  end
+
+  def test_ignore_environments
+    Telebugs.configure { |c| c.ignore_environments = ["test"] }
+
+    assert_equal ["test"], Telebugs.config.ignore_environments
   end
 end
