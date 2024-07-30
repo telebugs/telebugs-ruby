@@ -1,8 +1,11 @@
 # Telebugs for Ruby
 
+[![Gem Version](https://badge.fury.io/rb/telebugs.svg)](https://badge.fury.io/rb/telebugs)
+
 Simple error monitoring for developers. Monitor production errors in real-time
 and get them reported to Telegram with Telebugs.
 
+- [Official Documentation](https://telebugs.com/docs/integrations/ruby)
 - [FAQ](https://telebugs.com/faq)
 - [Telebugs News](https://t.me/TelebugsNews)
 - [Telebugs Community](https://t.me/TelebugsCommunity)
@@ -16,7 +19,7 @@ simple and easy to use. It provides a simple API to send errors to Telebugs,
 which will then be reported to your Telegram project. This guide will help you
 get started with Telebugs for Ruby.
 
-For full details, please refer to the [Telebugs documentation](https://telebugs.com/new/docs/integrations/ruby).
+For full details, please refer to the [Telebugs documentation](https://telebugs.com/docs/integrations/ruby).
 
 ## Installation
 
