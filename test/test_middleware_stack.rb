@@ -41,7 +41,7 @@ class TestMiddlewareStack < Minitest::Test
     stack.use TestStartLineMiddleware.new
 
     assert_equal(
-      [TestStartLineMiddleware, TestFilteringMiddleware],
+      [TestFilteringMiddleware, TestStartLineMiddleware],
       stack.middlewares.map(&:class)
     )
 
@@ -50,7 +50,7 @@ class TestMiddlewareStack < Minitest::Test
     stack.use TestFilteringMiddleware.new
 
     assert_equal(
-      [TestStartLineMiddleware, TestFilteringMiddleware],
+      [TestFilteringMiddleware, TestStartLineMiddleware],
       stack.middlewares.map(&:class)
     )
   end

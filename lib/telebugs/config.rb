@@ -8,7 +8,9 @@ module Telebugs
       :middleware
 
     attr_reader :api_url,
-      :root_directory
+      :root_directory,
+      :ignore_environments,
+      :environment
 
     class << self
       attr_writer :instance
@@ -22,6 +24,18 @@ module Telebugs
       reset
     end
 
+    def reset
+      self.api_key = nil
+      self.api_url = ERROR_API_URL
+
+      @middleware = MiddlewareStack.new
+      @middleware.use Middleware::GemRootFilter.new
+
+      self.root_directory = (defined?(Bundler) && Bundler.root) || Dir.pwd
+      self.environment = ""
+      self.ignore_environments = []
+    end
+
     def api_url=(url)
       @api_url = URI(url)
     end
@@ -29,23 +43,22 @@ module Telebugs
     def root_directory=(directory)
       @root_directory = File.realpath(directory)
 
-      if @middleware
-        @middleware.delete(Middleware::RootDirectoryFilter)
-        @middleware.use Middleware::RootDirectoryFilter.new(@root_directory)
-      end
+      @middleware.delete(Middleware::RootDirectoryFilter)
+      @middleware.use Middleware::RootDirectoryFilter.new(@root_directory)
     end
 
-    def reset
-      self.api_key = nil
-      self.api_url = ERROR_API_URL
-      self.root_directory = File.realpath(
-        (defined?(Bundler) && Bundler.root) ||
-        Dir.pwd
-      )
+    def environment=(environment)
+      @environment = environment
 
-      @middleware = MiddlewareStack.new
-      @middleware.use Middleware::GemRootFilter.new
-      @middleware.use Middleware::RootDirectoryFilter.new(root_directory)
+      @middleware.delete(Middleware::IgnoreEnvironments)
+      @middleware.use Middleware::IgnoreEnvironments.new(@environment, @ignore_environments)
+    end
+
+    def ignore_environments=(ignore_environments)
+      @ignore_environments = ignore_environments
+
+      @middleware.delete(Middleware::IgnoreEnvironments)
+      @middleware.use Middleware::IgnoreEnvironments.new(@environment, @ignore_environments)
     end
   end
 end
