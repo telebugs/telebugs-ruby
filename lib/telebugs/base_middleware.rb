@@ -3,7 +3,7 @@
 module Telebugs
   # Represents a middleware that can be used to filter out errors.
   # You must inherit from this class and implement the #call method.
-  class Middleware
+  class BaseMiddleware
     DEFAULT_WEIGHT = 0
 
     def weight

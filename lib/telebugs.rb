@@ -15,7 +15,7 @@ require_relative "telebugs/error_message"
 require_relative "telebugs/backtrace"
 require_relative "telebugs/file_cache"
 require_relative "telebugs/code_hunk"
-require_relative "telebugs/middleware"
+require_relative "telebugs/base_middleware"
 require_relative "telebugs/middleware_stack"
 require_relative "telebugs/truncator"
 

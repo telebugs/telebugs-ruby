@@ -37,7 +37,7 @@ class TestConfig < Minitest::Test
   end
 
   def test_middleware
-    middleware_class = Class.new(Telebugs::Middleware)
+    middleware_class = Class.new(Telebugs::BaseMiddleware)
 
     Telebugs.configure do |c|
       c.middleware.use middleware_class.new

@@ -2,14 +2,14 @@
 
 require "test_helper"
 
-class TestMiddleware < Minitest::Test
+class TestBaseMiddleware < Minitest::Test
   def test_call
     assert_raises(NotImplementedError) do
-      Telebugs::Middleware.new.call(nil)
+      Telebugs::BaseMiddleware.new.call(nil)
     end
   end
 
   def test_weight
-    assert_equal 0, Telebugs::Middleware.new.weight
+    assert_equal 0, Telebugs::BaseMiddleware.new.weight
   end
 end

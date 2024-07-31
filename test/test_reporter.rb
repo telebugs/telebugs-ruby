@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class TestIgnoreMiddleware < Telebugs::Middleware
+class TestIgnoreMiddleware < Telebugs::BaseMiddleware
   def call(report)
     report.ignored = true
   end
