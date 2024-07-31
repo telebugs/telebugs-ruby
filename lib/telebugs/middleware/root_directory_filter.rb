@@ -3,7 +3,7 @@
 module Telebugs
   class Middleware
     # Filters out the root directory from the backtrace paths.
-    class RootDirectoryFilter < Telebugs::Middleware
+    class RootDirectoryFilter < Telebugs::BaseMiddleware
       def initialize(root_directory)
         @root_directory = root_directory
       end

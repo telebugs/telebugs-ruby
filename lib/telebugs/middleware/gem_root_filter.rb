@@ -4,7 +4,7 @@ module Telebugs
   class Middleware
     # GemRootFilter is a middleware that filters out the root path of the gems.
     # It replaces the root path with the gem name and version.
-    class GemRootFilter < Telebugs::Middleware
+    class GemRootFilter < Telebugs::BaseMiddleware
       def initialize
         @gem_paths = Gem.path.map { |path| /\A#{Regexp.escape(path)}\/gems\// }
       end

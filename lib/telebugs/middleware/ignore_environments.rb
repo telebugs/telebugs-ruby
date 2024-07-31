@@ -2,7 +2,7 @@
 
 module Telebugs
   class Middleware
-    class IgnoreEnvironments < Telebugs::Middleware
+    class IgnoreEnvironments < Telebugs::BaseMiddleware
       def initialize(current_env, ignore_envs)
         @current_env = current_env
         @ignore_envs = ignore_envs
